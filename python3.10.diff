@@ -1,0 +1,88 @@
+--- a/debian/control
++++ b/debian/control
+@@ -46,9 +46,7 @@
+ Multi-Arch: allowed
+ Priority: optional
+ Depends: python3.10 (= ${binary:Version}),
+- python3-pip-whl,
+- python3-setuptools-whl,
+- python3.10-distutils,
++ python-pip-whl,
+  ${shlibs:Depends}, ${misc:Depends},
+ Breaks: python3-pip (<< 1.5.6-4)
+ Description: Interactive high-level object-oriented language (pyvenv binary, version 3.10)
+@@ -176,7 +174,6 @@
+ Section: libdevel
+ Architecture: all
+ Depends: python3.10 (>= ${binary:Version}), ${misc:Depends}, net-tools
+-Suggests: python3-gdbm, python3-tk
+ Description: Testsuite for the Python standard library (v3.10)
+  The complete testsuite for the Python standard library.  Note that
+  a subset is found in the libpython3.10-stdlib package, which should
+@@ -222,7 +209,6 @@
+ Multi-Arch: allowed
+ Depends: python3.10 (= ${binary:Version}), libpython3.10-dbg (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+ Recommends: gdb
+-Suggests: python3-gdbm-dbg, python3-tk-dbg
+ Description: Debug Build of the Python Interpreter (version 3.10)
+  The package holds two things:
+  .
+--- a/debian/control.in
++++ b/debian/control.in
+@@ -46,9 +46,7 @@
+ Multi-Arch: allowed
+ Priority: @PRIO@
+ Depends: @PVER@ (= ${binary:Version}),
+- python3-pip-whl,
+- python3-setuptools-whl,
+- @PVER@-distutils,
++ python-pip-whl,
+  ${shlibs:Depends}, ${misc:Depends},
+ Breaks: python3-pip (<< 1.5.6-4)
+ Description: Interactive high-level object-oriented language (pyvenv binary, version @VER@)
+@@ -176,7 +174,6 @@
+ Section: libdevel
+ Architecture: all
+ Depends: @PVER@ (>= ${binary:Version}), ${misc:Depends}, net-tools
+-Suggests: python3-gdbm, python3-tk
+ Description: Testsuite for the Python standard library (v@VER@)
+  The complete testsuite for the Python standard library.  Note that
+  a subset is found in the lib@PVER@-stdlib package, which should
+@@ -222,7 +209,6 @@
+ Multi-Arch: allowed
+ Depends: @PVER@ (= ${binary:Version}), lib@PVER@-dbg (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+ Recommends: gdb
+-Suggests: python3-gdbm-dbg, python3-tk-dbg
+ Description: Debug Build of the Python Interpreter (version @VER@)
+  The package holds two things:
+  .
+--- a/debian/rules
++++ a/debian/rules
+@@ -1143,12 +1143,6 @@
+ 	: # Tkinter library files shipped in python3-tk
+ 	rm -rf $(d)/usr/lib/python$(VER)/tkinter
+ 
+-	: # distutils shipped in python3-distutils
+-	rm -rf $(d)/usr/lib/python$(VER)/distutils/*
+-	: # ... except for distutils.version
+-	cp Lib/distutils/{__init__,version}.py \
+-		$(d)/usr/lib/python$(VER)/distutils/.
+-
+ 	: # lib2to3 shipped in python3-lib2to3
+ 	rm -rf \
+ 		$(d)/usr/bin/2to3-$(VER) \
+@@ -1223,11 +1217,13 @@
+ 	cp -p debian/README.Tk $(d_tk)/usr/share/doc/$(p_tk)/
+ endif
+ 
+-	: # pyvenv and ensurepip files into $(p_venv)
++	: # pyvenv, distutils and ensurepip files into $(p_venv)
+ 	dh_installdirs -p$(p_venv) \
+ 		usr/lib/python$(VER)
+ 	dh_movefiles -p$(p_venv) \
+ 		usr/lib/python$(VER)/ensurepip
++	dh_movefiles -p$(p_venv) \
++		usr/lib/python$(VER)/distutils
+ 
+ 	: # library files into $(p_lbase)
+ 	dh_installdirs -p$(p_lbase) \
