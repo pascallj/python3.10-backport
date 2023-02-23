@@ -1,11 +1,11 @@
 FROM debian:bullseye-slim AS build-system
 RUN echo '\
-deb http://deb.debian.org/debian bookworm main\n\
-deb-src http://deb.debian.org/debian bookworm main' \
+deb http://deb.debian.org/debian unstable main\n\
+deb-src http://deb.debian.org/debian unstable main' \
 >> /etc/apt/sources.list
 RUN echo '\
 Package: *\n\
-Pin: release n=bookworm\n\
+Pin: release n=unstable\n\
 Pin-Priority: 1' \
 > /etc/apt/preferences.d/99pinning
 RUN apt-get update && apt-get upgrade -y
