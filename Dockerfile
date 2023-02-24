@@ -5,7 +5,7 @@ deb-src http://deb.debian.org/debian unstable main' \
 >> /etc/apt/sources.list
 RUN echo '\
 Package: *\n\
-Pin: release n=unstable\n\
+Pin: release a=unstable\n\
 Pin-Priority: 1' \
 > /etc/apt/preferences.d/99pinning
 RUN apt-get update && apt-get upgrade -y
