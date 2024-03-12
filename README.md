@@ -1,4 +1,7 @@
 # Python 3.10 backport for Debian 11 bullseye
+> ## ⚠️ Deprecation notice
+> This git repository is now archived because Debian 12 bookworm has been released. The packages repository for Debian will still be available for some time depending on its usage.
+
 The aim of this project is to provide a Python 3.10 backport to Debian bullseye. Packages are of course much better manageable than compiling the source from scratch.
 
 Motivation for this project was the [removal of Python 3.9 support in Home Assistant 2023.2.0](https://github.com/home-assistant/core/pull/85456). Debian bullseye doesn't have Python 3.10 however and Debian bookworm (which will contain Python 3.11) will not be released anytime before July 2023. In the meantime, you can use this backport.
